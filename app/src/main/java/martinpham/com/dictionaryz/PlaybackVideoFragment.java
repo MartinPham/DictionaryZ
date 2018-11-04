@@ -14,7 +14,6 @@
 
 package martinpham.com.dictionaryz;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v17.leanback.app.VideoSupportFragment;
 import android.support.v17.leanback.app.VideoSupportFragmentGlueHost;
@@ -34,7 +33,7 @@ public class PlaybackVideoFragment extends VideoSupportFragment {
         super.onCreate(savedInstanceState);
 
         final Word movie =
-                (Word) getActivity().getIntent().getSerializableExtra(DetailsActivity.MOVIE);
+                (Word) getActivity().getIntent().getSerializableExtra(DetailsActivity.ITEM);
 
         VideoSupportFragmentGlueHost glueHost =
                 new VideoSupportFragmentGlueHost(PlaybackVideoFragment.this);

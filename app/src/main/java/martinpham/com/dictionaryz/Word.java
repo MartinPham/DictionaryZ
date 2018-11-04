@@ -6,8 +6,10 @@ public class Word  implements Serializable {
     static final long serialVersionUID = 727566175075960653L;
     private String name;
     private String description;
+    private String content;
     private String backgroundImageUrl;
     private String cardImageUrl;
+    private String videoUrl;
 
 
     public Word() {
@@ -28,6 +30,22 @@ public class Word  implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
     public String getBackgroundImageUrl() {

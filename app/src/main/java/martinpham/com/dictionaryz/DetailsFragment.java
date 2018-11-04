@@ -18,7 +18,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v17.leanback.app.DetailsFragment;
 import android.support.v17.leanback.app.DetailsFragmentBackgroundController;
 import android.support.v17.leanback.widget.Action;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -45,19 +44,18 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.ArrayList;
 
 /*
  * LeanbackDetailsFragment extends DetailsFragment, a Wrapper fragment for leanback details screens.
  * It shows a detailed view of video and its meta plus related videos.
  */
-public class VideoDetailsFragment extends DetailsFragment {
-    private static final String TAG = "VideoDetailsFragment";
+public class DetailsFragment extends android.support.v17.leanback.app.DetailsFragment {
+    private static final String TAG = "DetailsFragment";
 
-    private static final int ACTION_WATCH_TRAILER = 1;
-    private static final int ACTION_RENT = 2;
-    private static final int ACTION_BUY = 3;
+    private static final int ACTION_WATCH_VIDEO = 1;
+//    private static final int ACTION_RENT = 2;
+//    private static final int ACTION_BUY = 3;
 
     private static final int DETAIL_THUMB_WIDTH = 274;
     private static final int DETAIL_THUMB_HEIGHT = 274;
@@ -79,7 +77,7 @@ public class VideoDetailsFragment extends DetailsFragment {
         mDetailsBackground = new DetailsFragmentBackgroundController(this);
 
         mSelectedMovie =
-                (Word) getActivity().getIntent().getSerializableExtra(DetailsActivity.MOVIE);
+                (Word) getActivity().getIntent().getSerializableExtra(DetailsActivity.ITEM);
         if (mSelectedMovie != null) {
             mPresenterSelector = new ClassPresenterSelector();
             mAdapter = new ArrayObjectAdapter(mPresenterSelector);
@@ -138,19 +136,19 @@ public class VideoDetailsFragment extends DetailsFragment {
 
         actionAdapter.add(
                 new Action(
-                        ACTION_WATCH_TRAILER,
-                        getResources().getString(R.string.watch_trailer_1),
-                        getResources().getString(R.string.watch_trailer_2)));
-        actionAdapter.add(
-                new Action(
-                        ACTION_RENT,
-                        getResources().getString(R.string.rent_1),
-                        getResources().getString(R.string.rent_2)));
-        actionAdapter.add(
-                new Action(
-                        ACTION_BUY,
-                        getResources().getString(R.string.buy_1),
-                        getResources().getString(R.string.buy_2)));
+                        ACTION_WATCH_VIDEO,
+                        getResources().getString(R.string.watch_video_1),
+                        getResources().getString(R.string.watch_video_2)));
+//        actionAdapter.add(
+//                new Action(
+//                        ACTION_RENT,
+//                        getResources().getString(R.string.rent_1),
+//                        getResources().getString(R.string.rent_2)));
+//        actionAdapter.add(
+//                new Action(
+//                        ACTION_BUY,
+//                        getResources().getString(R.string.buy_1),
+//                        getResources().getString(R.string.buy_2)));
         row.setActionsAdapter(actionAdapter);
 
         mAdapter.add(row);
@@ -174,9 +172,9 @@ public class VideoDetailsFragment extends DetailsFragment {
         detailsPresenter.setOnActionClickedListener(new OnActionClickedListener() {
             @Override
             public void onActionClicked(Action action) {
-                if (action.getId() == ACTION_WATCH_TRAILER) {
+                if (action.getId() == ACTION_WATCH_VIDEO) {
                     Intent intent = new Intent(getActivity(), PlaybackActivity.class);
-                    intent.putExtra(DetailsActivity.MOVIE, mSelectedMovie);
+                    intent.putExtra(DetailsActivity.ITEM, mSelectedMovie);
                     startActivity(intent);
                 } else {
                     Toast.makeText(getActivity(), action.toString(), Toast.LENGTH_SHORT).show();
@@ -187,20 +185,19 @@ public class VideoDetailsFragment extends DetailsFragment {
     }
 
     private void setupRelatedMovieListRow() {
-        /*
-        String subcategories[] = {getString(R.string.related_movies)};
-        List<Movie> list = MovieList.getList();
+        String subcategories[] = {getString(R.string.related_items)};
+        ArrayList<Word> list = WordRepository.relatedList(mSelectedMovie.getName());
 
-        Collections.shuffle(list);
+//        Collections.shuffle(list);
         ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(new CardPresenter());
-        for (int j = 0; j < NUM_COLS; j++) {
-            listRowAdapter.add(list.get(j % 5));
-        }
+//        for (int j = 0; j < NUM_COLS; j++) {
+//            listRowAdapter.add(list.get(j % 5));
+//        }
+        listRowAdapter.addAll(0, list);
 
         HeaderItem header = new HeaderItem(0, subcategories[0]);
         mAdapter.add(new ListRow(header, listRowAdapter));
         mPresenterSelector.addClassPresenter(ListRow.class, new ListRowPresenter());
-        */
     }
 
     private int convertDpToPixel(Context context, int dp) {
@@ -216,10 +213,10 @@ public class VideoDetailsFragment extends DetailsFragment {
                 RowPresenter.ViewHolder rowViewHolder,
                 Row row) {
 
-            if (item instanceof Movie) {
+            if (item instanceof Word) {
                 Log.d(TAG, "Item: " + item.toString());
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(getResources().getString(R.string.movie), mSelectedMovie);
+                intent.putExtra(DetailsActivity.ITEM, mSelectedMovie);
 
                 Bundle bundle =
                         ActivityOptionsCompat.makeSceneTransitionAnimation(

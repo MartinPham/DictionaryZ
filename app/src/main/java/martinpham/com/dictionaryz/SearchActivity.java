@@ -1,5 +1,6 @@
 package martinpham.com.dictionaryz;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 
@@ -11,4 +12,9 @@ public class SearchActivity extends Activity {
         setContentView(R.layout.activity_search);
     }
 
+    @Override
+    public boolean onSearchRequested() {
+        startActivity(new Intent(this, SearchActivity.class));
+        return true;
+    }
 }

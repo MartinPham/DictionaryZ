@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="martinpham.com.dictionaryz">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
@@ -17,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".SearchActivity"
             android:banner="@drawable/app_icon_your_company"
             android:icon="@drawable/app_icon_your_company"
             android:label="@string/app_name"
@@ -32,9 +35,12 @@
         <activity android:name=".DetailsActivity" />
         <activity android:name=".PlaybackActivity" />
         <activity android:name=".BrowseErrorActivity" />
+
+        <!--
         <activity
             android:name=".SearchActivity"
             android:label="@string/title_activity_search"></activity>
+            -->
     </application>
 
 </manifest>

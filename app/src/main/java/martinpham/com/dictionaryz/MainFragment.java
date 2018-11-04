@@ -41,14 +41,27 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -80,6 +93,46 @@ public class MainFragment extends BrowseFragment {
         loadRows();
 
         setupEventListeners();
+
+
+//        RequestQueue queue = Volley.newRequestQueue(getContext());
+//
+//        JsonArrayRequest request = new JsonArrayRequest(
+//                Request.Method.GET,
+//                "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=vi&dt=t&q=hello",
+//                null,
+//                new Response.Listener<JSONArray>() {
+//
+//                    @Override
+//                    public void onResponse(JSONArray response) {
+//                        try {
+//                            Log.d("xxx", response.getJSONArray(0).getJSONArray(0).getString(0));
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        Log.d("xxx error", error.toString());
+//                    }
+//                })
+//        {
+//
+//            /**
+//             * Passing some request headers
+//             */
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                HashMap<String, String> headers = new HashMap<String, String>();
+//                //headers.put("Content-Type", "application/json");
+//                headers.put("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36cc");
+//                return headers;
+//            }
+//        };
+//
+//        queue.add(request);
     }
 
     @Override
@@ -102,6 +155,14 @@ public class MainFragment extends BrowseFragment {
         listRowAdapter.addAll(0, featuredWords);
 
         rowsAdapter.add(new ListRow(header, listRowAdapter));
+
+
+        HeaderItem header2 = new HeaderItem(0, "History");
+        ArrayObjectAdapter listRowAdapter2 = new ArrayObjectAdapter(cardPresenter);
+        ArrayList<Word> featuredWords2 = WordRepository.searchedList();
+        listRowAdapter2.addAll(0, featuredWords2);
+
+        rowsAdapter.add(new ListRow(header2, listRowAdapter2));
 
         /*
         List<Movie> list = MovieList.setupMovies();
@@ -202,10 +263,10 @@ public class MainFragment extends BrowseFragment {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (item instanceof Word) {
-                Word movie = (Word) item;
+                Word word = (Word) item;
                 Log.d(TAG, "Item: " + item.toString());
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(DetailsActivity.MOVIE, movie);
+                intent.putExtra(DetailsActivity.ITEM, word);
 
                 Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         getActivity(),
