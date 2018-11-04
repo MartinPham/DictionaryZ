@@ -33,8 +33,8 @@ public class PlaybackVideoFragment extends VideoSupportFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Movie movie =
-                (Movie) getActivity().getIntent().getSerializableExtra(DetailsActivity.MOVIE);
+        final Word movie =
+                (Word) getActivity().getIntent().getSerializableExtra(DetailsActivity.MOVIE);
 
         VideoSupportFragmentGlueHost glueHost =
                 new VideoSupportFragmentGlueHost(PlaybackVideoFragment.this);
@@ -44,10 +44,10 @@ public class PlaybackVideoFragment extends VideoSupportFragment {
 
         mTransportControlGlue = new PlaybackTransportControlGlue<>(getContext(), playerAdapter);
         mTransportControlGlue.setHost(glueHost);
-        mTransportControlGlue.setTitle(movie.getTitle());
+        mTransportControlGlue.setTitle(movie.getName());
         mTransportControlGlue.setSubtitle(movie.getDescription());
         mTransportControlGlue.playWhenPrepared();
-        playerAdapter.setDataSource(Uri.parse(movie.getVideoUrl()));
+//        playerAdapter.setDataSource(Uri.parse(movie.getVideoUrl()));
     }
 
     @Override

@@ -64,7 +64,7 @@ public class VideoDetailsFragment extends DetailsFragment {
 
     private static final int NUM_COLS = 10;
 
-    private Movie mSelectedMovie;
+    private Word mSelectedMovie;
 
     private ArrayObjectAdapter mAdapter;
     private ClassPresenterSelector mPresenterSelector;
@@ -79,7 +79,7 @@ public class VideoDetailsFragment extends DetailsFragment {
         mDetailsBackground = new DetailsFragmentBackgroundController(this);
 
         mSelectedMovie =
-                (Movie) getActivity().getIntent().getSerializableExtra(DetailsActivity.MOVIE);
+                (Word) getActivity().getIntent().getSerializableExtra(DetailsActivity.MOVIE);
         if (mSelectedMovie != null) {
             mPresenterSelector = new ClassPresenterSelector();
             mAdapter = new ArrayObjectAdapter(mPresenterSelector);
@@ -95,7 +95,7 @@ public class VideoDetailsFragment extends DetailsFragment {
         }
     }
 
-    private void initializeBackground(Movie data) {
+    private void initializeBackground(Word data) {
         mDetailsBackground.enableParallax();
         Glide.with(getActivity())
                 .load(data.getBackgroundImageUrl())
@@ -187,6 +187,7 @@ public class VideoDetailsFragment extends DetailsFragment {
     }
 
     private void setupRelatedMovieListRow() {
+        /*
         String subcategories[] = {getString(R.string.related_movies)};
         List<Movie> list = MovieList.getList();
 
@@ -199,6 +200,7 @@ public class VideoDetailsFragment extends DetailsFragment {
         HeaderItem header = new HeaderItem(0, subcategories[0]);
         mAdapter.add(new ListRow(header, listRowAdapter));
         mPresenterSelector.addClassPresenter(ListRow.class, new ListRowPresenter());
+        */
     }
 
     private int convertDpToPixel(Context context, int dp) {
